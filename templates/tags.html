@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load django_markdown %}
+{% block blog_header %} 
+<div class="bg"></div>
+<div class="jumbotron">
+  <h1>{{ tag.slug }}</h1>
+  
+</div>
+{% endblock %}
+
+{% block blog_entries %}
+<div class="col-sm-8 blog-main">
+{% for object in object_list %}
+  <div class="post">
+    <h2><a href="{% url "entry_detail" slug=object.slug %}"  style="color:#0C3C26">{{ object.title }}</a></h2>
+    <p class="meta">
+      {{ object.created }} |  {% for tag in object.tags.all %} <a href="{% url 'tag' tag.slug %}"><mark> {{ tag }} </mark></a> &nbsp {% endfor %}
+    </p>
+    
+  </div>
+{% endfor %}
+
+ {% if is_paginated %}
+            <ul class="pager">
+              <li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %}>Prev</a></li>
+              <li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% endif %}>Next</a></li>
+            </ul>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block sidebar%}
+<div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset" >
+    <h4><i class="zmdi zmdi-info-outline"></i> About</h4>
+    <p><strong>Sharing</strong> Lets all learn and share !</p>
+  </div>
+
+  <!-- <div class="sidebar-module sidebar-module-inset">
+    <h4><i class="zmdi zmdi-calendar"></i> Recent Posts</h4>
+    
+  </div>
+   -->
+  
+  <div class="sidebar-module sidebar-module-inset">
+    <h4><i class="zmdi zmdi-cloud-outline"></i> Social</h4>
+    <p> &nbsp &nbsp <a href="https://www.facebook.com/sharad.dargan.9" ><i class="zmdi zmdi-facebook-box"></i> Facebook</a></p>
+    <p> &nbsp &nbsp <a href="https://twitter.com/SharadDargan" ><i class="zmdi zmdi-twitter-box"></i> Twitter</a></p>
+    <p> &nbsp &nbsp <a href="https://plus.google.com/u/1/+SharadDargan" ><i class="zmdi zmdi-google-plus-box"></i> Google+ </a></p>
+    <p> &nbsp &nbsp <a href="https://www.linkedin.com/in/SharadDargan" ><i class="zmdi zmdi-linkedin-box"></i> Linkedin</a></p>
+    <p> &nbsp &nbsp <a href="https://github.com/sharad5/" ><i class="zmdi zmdi-github-box"></i> Github</a></p>
+  </div>
+
+  <div class="sidebar-module sidebar-module-inset">
+            <h4><i class="zmdi zmdi-tag"></i> Tags</h4>
+            {%for tag in tags%}
+            <p> &nbsp &nbsp <a href="#">{{ tag.slug}}</a></p>  
+            {% endfor %}
+          </div>
+</div>
+              
+{% endblock %}

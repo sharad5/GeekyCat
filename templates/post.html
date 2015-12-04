@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load django_markdown %}
+
+{% block blog_entries %}
+<div class="col-sm-9 blog-main">
+  <div class="post1">
+    <h2 style="text-align:center;"><a id="page-vars" href="{% url "entry_detail" slug=object.slug %}">{{ object.title }}</a></h2>
+    <p class="meta" style = "text-align:center">
+      {{ object.created.date }} |
+      {% for tag in object.tags.all %} <a href="{% url 'tag' tag.slug%}"><mark> {{ tag }} </mark></a> &nbsp {% endfor %}
+    </p>
+    {{ object.body|markdown }}
+  </div>
+  
+<div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+var disqus_config = function () {
+this.page.url = document.getElementById("#page-vars").href // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = document.getElementById("#page-vars").innerHTML; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//geekycat.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+</div><!-- /.blog-main -->
+{% endblock %}
+
+{% block sidebar%}
+ <div class="col-sm-3 blog-sidebar">
+  <div class="sidebar-module sidebar-module-inset" style="margin-top : 50%;  margin-left:10%;"> 
+    <h4><i class="zmdi zmdi-cloud-outline"></i> Social</h4>
+    <p> &nbsp &nbsp <a href="https://www.facebook.com/sharad.dargan.9" ><i class="zmdi zmdi-facebook-box"></i> Facebook</a></p>
+    <p> &nbsp &nbsp <a href="https://twitter.com/SharadDargan" ><i class="zmdi zmdi-twitter-box"></i> Twitter</a></p>
+    <p> &nbsp &nbsp <a href="https://plus.google.com/u/1/+SharadDargan" ><i class="zmdi zmdi-google-plus-box"></i> Google+ </a></p>
+    <p> &nbsp &nbsp <a href="https://www.linkedin.com/in/SharadDargan" ><i class="zmdi zmdi-linkedin-box"></i> Linkedin</a></p>
+    <p> &nbsp &nbsp <a href="https://github.com/sharad5/" ><i class="zmdi zmdi-github-box"></i> Github</a></p>
+  </div>
+
+  <div class="sidebar-module sidebar-module-inset" style=" margin-left:10%;">
+            <h4><i class="zmdi zmdi-tag"></i> Tags</h4>
+            {%for tag in tags%}
+            <p> &nbsp &nbsp <a href="{% url 'tag' tag.slug %}">{{ tag.slug}}</a></p>  
+            {% endfor %}
+          </div>
+
+ </div>             
+{% endblock %}
