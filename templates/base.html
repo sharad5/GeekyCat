@@ -81,6 +81,7 @@
         </div>
         <div class="modal-body" >
           <form name="contact" id="contactme">
+          {% csrf_token %}
             <label for="name">Your Name: </label><br>
             <input type="text" name="name" class="input-xlarge myname"><br><br>
             <label for="email">Your E-mail: </label><br>
